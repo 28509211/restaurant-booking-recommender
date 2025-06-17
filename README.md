@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Restaurant Booking Recommender System
 # 智能餐廳訂位推薦系統
 
@@ -48,12 +47,30 @@ restaurant-booking-recommender/
 
 ## 🚀 快速開始
 
-### 1. 環境需求
+### 1. 專案下載與子模組初始化
+
+本專案的 `Search_data` 目錄採用 git submodule 管理，請務必使用下列指令完整下載主專案及其子模組：
+
+```bash
+# 1. 下載主專案（請將你的帳號替換為實際GitHub帳號）
+git clone https://github.com/你的帳號/restaurant-booking-recommender.git
+cd restaurant-booking-recommender
+
+# 2. 初始化並下載所有子模組（包含Search_data）
+git submodule update --init --recursive
+```
+
+> **注意：** 若已經clone過主專案但未下載子模組，可直接在專案根目錄執行：
+> ```bash
+> git submodule update --init --recursive
+> ```
+
+### 2. 環境需求
 - Python 3.8+
 - 8GB+ RAM (推薦16GB)
 - GPU支援 (用於模型訓練)
 
-### 2. 安裝依賴
+### 3. 安裝依賴
 ```bash
 # 克隆專案
 git clone <repository-url>
@@ -72,7 +89,7 @@ cd ../../Data/scripts
 pip install pandas numpy requests beautifulsoup4
 ```
 
-### 3. 模型權重下載
+### 4. 模型權重下載
 請至 [Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing) 下載所有模型資料夾，並放置於對應目錄。
 
 **必要模型目錄：**
@@ -83,11 +100,49 @@ pip install pandas numpy requests beautifulsoup4
 - `CHATBOT/NLG_TAIDE/` - NLG模型
 - `CHATBOT/shibing624_text2vec-base-chinese/` - 文本向量模型
 
-### 4. 啟動聊天機器人
+### 5. 解壓縮資料檔案
+專案中的資料檔案採用 `.gz` 壓縮格式以節省空間，請先解壓縮：
+
 ```bash
+# 進入CHATBOT目錄
 cd CHATBOT
-python script.py start
+
+# 解壓縮所有.gz檔案
+gunzip *.json.gz
+
+# 或使用Python解壓縮（如果沒有gunzip指令）
+python -c "
+import gzip
+import json
+import os
+
+# 解壓縮檔案列表
+files_to_decompress = [
+    'data.json.gz',
+    'storeinfo_review.json.gz', 
+    'tag_embeddings.json.gz',
+    'updated_storeinfo_tablesm.json.gz'
+]
+
+for file in files_to_decompress:
+    if os.path.exists(file):
+        with gzip.open(file, 'rt', encoding='utf-8') as f_in:
+            data = json.load(f_in)
+        output_file = file.replace('.gz', '')
+        with open(output_file, 'w', encoding='utf-8') as f_out:
+            json.dump(data, f_out, ensure_ascii=False, indent=2)
+        print(f'已解壓縮: {file} -> {output_file}')
+    else:
+        print(f'檔案不存在: {file}')
+"
 ```
+
+**解壓縮後會產生：**
+- `data.json` - 餐廳基本資料
+- `storeinfo_review.json` - 餐廳評論與詳細資料
+- `tag_embeddings.json` - 標籤向量嵌入
+- `updated_storeinfo_tablesm.json` - 精簡版餐廳評論資料
+
 
 ## 📋 使用指南
 
@@ -102,9 +157,15 @@ python script.py start
 **啟動方式：**
 ```bash
 cd CHATBOT
+
+#使用參數化方式
 python script.py start          # 基本啟動
 python script.py start --debug  # 調試模式
 python script.py start --external  # 外部訪問
+
+# 或是 直接啟動（簡化）
+python main.py
+
 ```
 
 **配置管理：**
@@ -168,7 +229,7 @@ python script.py start --external  # 外部訪問
 ### API金鑰設定
 ```bash
 # 複製環境變數範本
-cp CHATBOT/env_api_key.txt CHATBOT/.env
+修改 CHATBOT/env_api_key.txt 
 
 # 編輯.env文件，填入您的API金鑰
 # - Google Maps API Key
@@ -268,25 +329,6 @@ python script.py status
 3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 開啟 Pull Request
-
-
-
-## 🙏 致謝
-
-- 感謝所有開源專案的貢獻者
-- 感謝Google Maps API的支援
-- 感謝Hugging Face提供的預訓練模型
-- 感謝所有測試用戶的寶貴意見
-
----
-
-**最後更新**: 2024年12月
-
-**版本**: v1.0.0
-
-**狀態**: 穩定版本，持續維護中 
-
-
 
 ## 🙏 致謝
 
