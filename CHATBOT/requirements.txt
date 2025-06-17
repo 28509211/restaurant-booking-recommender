@@ -1,0 +1,28 @@
+# Web框架
+flask
+flask-socketio
+gevent
+
+# 深度學習與NLP
+transformers
+torch
+spacy
+sentence-transformers
+scikit-learn
+numpy
+
+# LangChain相關
+langchain
+langchain-community
+langchain-huggingface
+
+# 特殊模型
+llama-factory
+
+# 工具庫
+python-dotenv
+pandas
+openpyxl
+python-Levenshtein
+requests
+pyngrok 
