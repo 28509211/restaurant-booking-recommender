@@ -2,6 +2,8 @@
 # 智能餐廳訂位推薦系統
 
 一個完整的智能餐廳訂位推薦系統，整合了聊天機器人、數據收集、機器學習訓練和數據處理等多個模組，提供從數據收集到智能推薦的全流程解決方案。
+本專案在打電話的過程使用的是 BLAND　AI 所以需要先申請API key 
+BLAND　AI網站( https://www.bland.ai/?utm_source=toolify )
 
 ## 🌟 專案特色
 
@@ -171,7 +173,6 @@ python main.py
 **配置管理：**
 - 所有路徑配置在 `config.py` 中統一管理
 - API金鑰在 `.env` 文件中設定
-- 詳細配置說明請參考 `CONFIG_SUMMARY.md`
 
 ### 🗺️ 數據收集 (Search_data)
 
@@ -231,11 +232,7 @@ python main.py
 # 複製環境變數範本
 修改 CHATBOT/env_api_key.txt 
 
-# 編輯.env文件，填入您的API金鑰
-# - Google Maps API Key
-# - OpenAI API Key (如需要)
-# - 其他第三方服務API金鑰
-```
+# 編輯.env文件，填入您的API(BLAND　API)金鑰
 
 ### 模型參數調整
 - **NLU模型**: 修改 `Train/` 中的notebook檔案
