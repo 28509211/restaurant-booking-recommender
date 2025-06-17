@@ -285,12 +285,6 @@ python script.py status
 **版本**: v1.0.0
 
 **狀態**: 穩定版本，持續維護中 
-=======
-# restaurant-booking-recommender
->>>>>>> 80a5f999929a6f5e312c4e6cb171cccf7c87e94b
-git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 開啟 Pull Request
 
 
 
