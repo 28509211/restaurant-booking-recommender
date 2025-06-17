@@ -171,7 +171,6 @@ python main.py
 **配置管理：**
 - 所有路徑配置在 `config.py` 中統一管理
 - API金鑰在 `.env` 文件中設定
-- 詳細配置說明請參考 `CONFIG_SUMMARY.md`
 
 ### 🗺️ 數據收集 (Search_data)
 
