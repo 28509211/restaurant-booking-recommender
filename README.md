@@ -229,7 +229,7 @@ python main.py
 ### API金鑰設定
 ```bash
 # 複製環境變數範本
-修改 CHATBOT/env_api_key.txt (BLAND AI API KEY）
+修改 CHATBOT/env_api_key.env (BLAND AI API KEY）
 
 # 編輯.env文件，填入您的API金鑰
 # - Google Maps API Key
