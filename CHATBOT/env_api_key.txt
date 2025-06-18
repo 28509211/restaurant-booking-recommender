@@ -1,3 +1,0 @@
-
-# Bland AI API Key (用於電話訂位功能)
-BLAND_AI_API_KEY=your_bland_ai_api_key_here
