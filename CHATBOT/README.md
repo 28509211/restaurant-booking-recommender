@@ -40,7 +40,7 @@
 | `tag_embeddings.json`      | 標籤向量嵌入（大型JSON）               |
 | `updated_storeinfo_tablesm.json` | 精簡版餐廳評論資料             |
 | `test_review.txt`          | 測試用評論資料                         |
-| `env_api_key.txt`          | API金鑰環境變數檔案                     |
+| `env_api_key.env`          | API金鑰環境變數檔案                     |
 | `requirements.txt`         | Python 依賴套件清單                    |
 | `review/`                  | 動態產生/存放各店家評論的 txt 檔案      |
 | `CONFIG_SUMMARY.md`        | 配置整理完成總結                       |
@@ -80,7 +80,7 @@ pip install -r requirements.txt
 python -m spacy download zh_core_web_sm
 
 # 設定環境變數
-cp env_api_key.txt .env
+手動修改 env_api_key.env
 # 編輯 .env 文件，填入您的 API 金鑰
 ```
 
