@@ -1,51 +1,48 @@
 # Restaurant Booking Recommender System
 # 智能餐廳訂位推薦系統
 
-一個完整的智能餐廳訂位推薦系統，整合了聊天機器人、數據收集、機器學習訓練和數據處理等多個模組，提供從數據收集到智能推薦的全流程解決方案。
+一個整合聊天機器人、數據收集、機器學習訓練、Android前端App的全流程智能餐廳推薦與訂位系統。
 
 ## 🌟 專案特色
 
-- **🤖 智能聊天機器人**: 基於深度學習的對話系統，支援餐廳推薦、訂位、評論查詢
+- **🤖 智能聊天機器人**: 基於深度學習的多輪對話系統，支援餐廳推薦、訂位、評論查詢
 - **🗺️ 自動化數據收集**: 從Google Maps自動收集餐廳資訊、圖片、評論
 - **🧠 機器學習模型**: 多標籤分類、二分類、LLaMA-3微調等多種模型
 - **📊 數據處理管道**: 完整的數據清洗、格式轉換、訓練數據生成流程
+- **📱 Android前端App**: 提供用戶友善的推薦、訂位、地圖、聊天等功能
 - **🔧 模組化設計**: 各功能模組獨立，易於維護和擴展
 
 ## 📁 專案結構
 
 ```
 restaurant-booking-recommender/
-├── CHATBOT/                    # 智能聊天機器人核心模組
-│   ├── main.py                # Flask + SocketIO 主伺服器
-│   ├── chat_function.py       # 對話生成與API串接
-│   ├── classification_function.py  # NLU意圖分類
-│   ├── spacy_function.py      # NER命名實體辨識
-│   ├── dp_function.py         # 對話流程管理
-│   ├── database.py            # 餐廳資料存取
-│   ├── config.py              # 集中配置管理
-│   ├── script.py              # 一鍵啟動腳本
-│   └── requirements.txt       # 依賴套件
+├── App/                # Android前端App，負責用戶介面與互動
+│   ├── MainActivity.java、FavorFragment.java、MapsFragment.java ...
+│   ├── Adapter/        # RecyclerView等UI元件Adapter
+│   └── ForGoogleMaps/  # Google Maps輔助類別
 │
-├── Search_data/               # 數據收集模組
-│   └── Google_Map/           # Google Maps數據收集
-│       ├── search_coordinate/     # 座標生成與比對
-│       ├── search_store_Data/     # 店家基本資料爬蟲
-│       ├── search_store_Picture/  # 店家圖片爬蟲
-│       ├── search_store_Review/   # 店家評論爬蟲
-│       └── search_store_with_google/  # Google API搜尋
+├── CHATBOT/            # 智能聊天機器人後端
+│   ├── main.py         # Flask+SocketIO主伺服器
+│   ├── chat_function.py、classification_function.py ...
+│   └── requirements.txt
 │
-├── Train/                     # 機器學習模型訓練
-│   ├── NLU_BERT_MULTILABEL.ipynb      # 多標籤分類模型
-│   ├── NLU_FOR_Binary.ipynb           # 二分類模型
-│   └── Finetune_Llama3_with_LLaMA_Factory_ipynb  # LLaMA-3微調
+├── Data/               # 數據處理與管理
+│   ├── data_raw/       # 原始數據
+│   ├── data_processed/ # 處理後數據
+│   └── scripts/        # 數據處理腳本
 │
-└── Data/                      # 數據處理與管理
-    ├── data_raw/              # 原始數據檔案
-    ├── data_processed/        # 處理後JSON數據
-    ├── scripts/               # 數據處理腳本
+├── Search_data/        # Google Maps自動化數據收集
+│   └── Google_Map/     # 各類爬蟲與API收集模組
+│
+├── Train/              # 機器學習模型訓練
+│   ├── NLU_BERT_MULTILABEL.ipynb
+│   ├── NLU_FOR_Binary.ipynb
+│   └── LLaMA-3微調notebook
+│
+└── README.md           # 專案總說明
 ```
 
-## 🚀 快速開始
+## �� 快速開始
 
 ### 1. 專案下載與子模組初始化
 
@@ -142,7 +139,6 @@ for file in files_to_decompress:
 - `storeinfo_review.json` - 餐廳評論與詳細資料
 - `tag_embeddings.json` - 標籤向量嵌入
 - `updated_storeinfo_tablesm.json` - 精簡版餐廳評論資料
-
 
 ## 📋 使用指南
 
@@ -342,3 +338,37 @@ python script.py status
 **版本**: v1.0.0
 
 **狀態**: 穩定版本，持續維護中 
+
+## 📱 App (Android前端)
+
+- 用戶可透過App進行餐廳推薦、訂位、地圖瀏覽、收藏、聊天助理等操作
+- 主要檔案與結構請參考 [`App/README.md`](App/README.md)
+
+## 🤖 CHATBOT (聊天機器人後端)
+
+- 提供餐廳推薦、訂位、評論查詢、地圖導航等智能對話服務
+- 支援多輪對話、意圖識別、實體抽取
+- 詳細說明請參考 [`CHATBOT/README.md`](CHATBOT/README.md)
+
+## 🗺️ Search_data (數據收集)
+
+- 自動化批次收集Google Maps餐廳資訊、圖片、評論
+- 各模組皆有獨立README，請依需求詳閱
+- 詳細說明請參考 [`Search_data/README.md`](Search_data/README.md)
+
+## 📊 Data (數據處理)
+
+- 原始數據、處理後數據、數據處理腳本集中管理
+- 支援多種對話格式轉換、翻譯、清洗
+- 詳細說明請參考 [`Data/README.md`](Data/README.md)
+
+## 🧠 Train (模型訓練)
+
+- 多標籤分類、二分類、LLaMA-3微調等模型訓練notebook
+- 詳細說明請參考 [`Train/README.md`](Train/README.md)
+
+## 📝 注意事項
+
+- 請依各子資料夾README進行詳細操作
+- 敏感資訊與大型檔案已排除於git追蹤
+- 若有新功能或重大變更，請同步更新各README
