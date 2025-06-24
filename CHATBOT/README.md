@@ -16,7 +16,7 @@
 
 1. **安裝 Python 依賴與 SpaCy 中文模型**
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements.txt  或是 直接安裝conda 環境 environment.yml
    python -m spacy download zh_core_web_sm
    ```
 2. **解壓縮資料檔案**（若程式無法直接讀取 .gz 請先解壓）
@@ -89,6 +89,7 @@
 | `test_nlu_function.py`     | NLU測試腳本                            |
 | `test_ner_function.py`     | NER測試腳本                            |
 | `requirements.txt`         | Python 依賴套件清單                    |
+| `environment.yml`          | conda 環境                    |
 | `env_api_key.env`          | API金鑰環境變數檔案                     |
 | `CONFIG_SUMMARY.md`        | 配置整理總結與說明                     |
 | `data.json`                | 餐廳基本資料（JSON）                   |
