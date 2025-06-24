@@ -96,6 +96,7 @@
 | `tag_embeddings.json`      | 標籤向量嵌入（大型JSON）               |
 | `updated_storeinfo_tablesm.json` | 精簡版餐廳評論資料             |
 | `templates/`               | Flask 聊天網頁前端模板                  |
+| `review/`                  | 用來存放找到店家的評論                |
 
 ---
 
