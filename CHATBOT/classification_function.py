@@ -272,7 +272,7 @@ class NLU:
             return now_execute_task
         else :
             return ['聊天']
-
+        
     def Set_Input( self, inputs ) :  #把輸入的句子轉成(編碼)讓模型可以理解的樣子
         self.__user_input = inputs
         self.__encoding_input = self.model_tokenizer( inputs, return_tensors='pt')

@@ -2,7 +2,7 @@
 # from mysql.connector import Error
 import json
 import os
-from config import DATA_JSON, STOREINFO_JSON, REVIEW_FOLDER
+from config import DATA_JSON, STOREINFO_JSON
 
 def read_dict_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -85,9 +85,9 @@ class DataBase :
                     with open(file_path, 'w', encoding='utf-8') as f:
                         f.write(stores['reviews'])
 
-                    return f"chatbot/review/{stores[ 'store_name' ]}_review.txt"
+                    return f"./review/{stores[ 'store_name' ]}_review.txt"
                 else :
-                    return f"chatbot/review/{stores[ 'store_name' ]}_review.txt"
+                    return f"./review/{stores[ 'store_name' ]}_review.txt"
 
 
     def FindAddress_Store_Table( self, store_name ) :  #找店家的地址

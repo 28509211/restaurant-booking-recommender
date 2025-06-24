@@ -16,8 +16,9 @@ from llamafactory.extras.misc import torch_gc
 import time
 import requests
 from dotenv import load_dotenv
-from config import NLG_MODEL_PATH, NLG_ADAPTER_PATH, EMBEDDING_MODEL, TEST_REVIEW_TXT
-
+from config import NLG_MODEL_PATH, NLG_ADAPTER_PATH, EMBEDDING_MODEL
+from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
@@ -48,7 +49,7 @@ class NLG :
 
     def __Set_DateTable( self, datatable ):  # 設定資料庫資料(店家的所有評論data)
 
-        loader = TextLoader( TEST_REVIEW_TXT, encoding='utf-8' )
+        loader = TextLoader( datatable, encoding='utf-8' )
         pages = loader.load()
 
              
@@ -186,19 +187,24 @@ class NLG :
         return answer
 
     def Use_Reserve( self, user_information ) :
+ 
 
+        # 載入 .env 檔案中的環境變數
+        load_dotenv()
 
+        # 從環境變數中取得值
+        api_key = os.getenv("BLAND_AI_API_KEY")
 
         # Headers
         headers = {
-        'Authorization': os.getenv('BLAND_AI_API_KEY')
+        'Authorization': api_key
         }
 
         # Data
         data = {
         "phone_number": "+886963877304",
         "from": "+14152264530",
-        "task": f"在這個情境中，您將扮演顧客，撥打電話到餐廳進行訂位。根據使用者提供的訂位資訊，您與餐廳店員進行對話。在對話過程中，您需要確認以下資訊：\n\n訂位日期：{user_information[date]}\n訂位時間：{user_information[time]}\n姓名：使用者{user_information[username]}\n人數：使用者提供的人數（例如 {user_information[people]}）\n當您與餐廳店員進行對話時：\n\n如果有空位：顧客確認訂位並感謝店員。\n如果沒有空位：顧客禮貌地表示感謝並理解，然後結束對話。\n缺少資訊：若顧客未提供完整資訊，店員會詢問必要的資料，顧客需要提供完整訂位細節。\n如果對方提出其他時間：如果店員告知某個時間沒有空位，顧客可以表示再考慮並告知會再撥電話確認。\n情境範例：\n\n訂位情境 - 有空位：\n\n顧客: 您好，我想在訂位，5位，姓林。\n店員: 您好，林先生/小姐，11月11日下午三點還有空位。請問您要預訂嗎？\n顧客: 是的，請幫我預訂，謝謝！\n店員: 好的，您的訂位已經完成，謝謝您！\n訂位情境 - 沒有空位：\n\n顧客: 您好，我想在11月11日下午三點訂位，5位，姓林。\n店員: 很抱歉，11月11日下午三點我們的座位已經滿了，您想要選擇其他時間嗎？\n顧客: 謝謝您的回覆，沒問題，祝您生意興隆！\n缺少資訊情境：\n\n顧客: 您好，我想訂位。\n店員: 您好，請問訂位的日期、時間以及人數是？\n顧客: 喔，對不起，我要訂11月11日下午三點，5位，姓林。\n店員: 好的，請稍等，我幫您查詢空位。\n提出其他時間情境：\n\n顧客: 您好，我想在11月11日下午三點訂位，5位，姓林。\n店員: 很抱歉，11月11日下午三點我們的座位已經滿了，您想要選擇其他時間嗎？\n顧客: 可以請問其他時間的空位情況嗎？\n店員: 我們有11月11日晚上7點的空位。\n顧客: 謝謝，我再考慮一下，可能會稍後再來電確認。\n語言要求：以上所有對話均需以中文(CHINESE)進行。",
+        "task": f"在這個情境中，您將扮演顧客，撥打電話到餐廳進行訂位。根據使用者提供的訂位資訊，您與餐廳店員進行對話。在對話過程中，您需要確認以下資訊：\n\n訂位日期：{user_information['date']}\n訂位時間：{user_information['time']}\n姓名：使用者{user_information['username']}{user_information['gender']}\n人數：使用者提供的人數（例如 {user_information['people']}）\n當您與餐廳店員進行對話時：\n\n如果有空位：顧客確認訂位並感謝店員。\n如果沒有空位：顧客禮貌地表示感謝並理解，然後結束對話。\n缺少資訊：若顧客未提供完整資訊，店員會詢問必要的資料，顧客需要提供完整訂位細節。\n如果對方提出其他時間：如果店員告知某個時間沒有空位，顧客可以表示再考慮並告知會再撥電話確認。\n情境範例：\n\n訂位情境 - 有空位：\n\n顧客: 您好，我想在訂位，5位，姓林。\n店員: 您好，林先生/小姐，11月11日下午三點還有空位。請問您要預訂嗎？\n顧客: 是的，請幫我預訂，謝謝！\n店員: 好的，您的訂位已經完成，謝謝您！\n訂位情境 - 沒有空位：\n\n顧客: 您好，我想在11月11日下午三點訂位，5位，姓林。\n店員: 很抱歉，11月11日下午三點我們的座位已經滿了，您想要選擇其他時間嗎？\n顧客: 謝謝您的回覆，沒問題，祝您生意興隆！\n缺少資訊情境：\n\n顧客: 您好，我想訂位。\n店員: 您好，請問訂位的日期、時間以及人數是？\n顧客: 喔，對不起，我要訂11月11日下午三點，5位，姓林。\n店員: 好的，請稍等，我幫您查詢空位。\n提出其他時間情境：\n\n顧客: 您好，我想在11月11日下午三點訂位，5位，姓林。\n店員: 很抱歉，11月11日下午三點我們的座位已經滿了，您想要選擇其他時間嗎？\n顧客: 可以請問其他時間的空位情況嗎？\n店員: 我們有11月11日晚上7點的空位。\n顧客: 謝謝，我再考慮一下，可能會稍後再來電確認。\n語言要求：以上所有對話均需以中文(CHINESE)進行。",
         "model": "base",
         "language": "zh-TW",
         "voice": "nat",
@@ -222,6 +228,7 @@ class NLG :
 
         # API request 
         requests.post('https://us.api.bland.ai/v1/calls', json=data, headers=headers)
+
 
 
 

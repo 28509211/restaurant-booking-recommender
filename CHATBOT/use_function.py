@@ -21,11 +21,11 @@ class Use_Function( NLG ):
         model = model.to('cuda')  # 確保模型在 GPU 上
 
         # 加載餐廳標籤向量
-        with open(TAG_EMBEDDINGS_JSON, 'r', encoding='utf-8') as f:
+        with open( TAG_EMBEDDINGS_JSON, 'r', encoding='utf-8') as f:
             tag_embeddings = json.load(f)
 
         # 加載餐廳 ID 和名稱的映射
-        with open(UPDATED_STOREINFO_JSON, 'r', encoding='utf-8') as f:
+        with open( UPDATED_STOREINFO_JSON, 'r', encoding='utf-8') as f:
             store_info = json.load(f)
         store_id_to_name = {str(item['store_id']): item['store_name'] for item in store_info}
 
@@ -51,11 +51,13 @@ class Use_Function( NLG ):
         # 按相似度排序，取前10個推薦
         top_k = sorted(recommendations, key=lambda x: x[1], reverse=True)[:10]
 
+        store_rec_list = []
         # 回傳僅包含餐廳名稱的列表
-        # for i in top_k:
-        #     print( i[0] )
-        print( "topk的第一項:", top_k[0][0])
-        return top_k[0][0]
+        for i in top_k:
+            store_rec_list.append(i[0])
+
+        
+        return store_rec_list
 
 
     def Map(self, address, room_id, message_queue, socketio):
@@ -69,8 +71,8 @@ class Use_Function( NLG ):
             print("導航失敗：未找到有效地址")
 
 
-    def Reserve( self, user_information ):
-        super().Use_Reserve( user_information) 
+    def Reserve( self ):
+        super().Use_Reserve( ) 
 
     def Ask( self, question, database ):
         answer = super().Ask_Question( question, database ) 

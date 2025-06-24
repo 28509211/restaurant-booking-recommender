@@ -64,7 +64,7 @@ class Dp:
 
         dp_sentence = ""
 
-        if ner_result[ 'FOOD' ] == [] and ner_result[ 'ADJ' ] == [] and self.ask_food_times == 0 : 
+        if ner_result[ 'FOOD' ] == [] and ner_result[ 'ADJ' ] == [] : 
             dp_sentence = "推薦服務，詢問使用者是否可以提供食物類型或是形容詞"   
             self.ask_food_times = self.ask_food_times + 1  
         else :  
