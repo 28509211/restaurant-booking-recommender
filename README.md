@@ -6,369 +6,132 @@
 ## 🌟 專案特色
 
 - **🤖 智能聊天機器人**: 基於深度學習的多輪對話系統，支援餐廳推薦、訂位、評論查詢
-- **🗺️ 自動化數據收集**: 從Google Maps自動收集餐廳資訊、圖片、評論
 - **🧠 機器學習模型**: 多標籤分類、二分類、LLaMA-3微調等多種模型
 - **📊 數據處理管道**: 完整的數據清洗、格式轉換、訓練數據生成流程
 - **📱 Android前端App**: 提供用戶友善的推薦、訂位、地圖、聊天等功能
 - **🔧 模組化設計**: 各功能模組獨立，易於維護和擴展
 
-## 📁 專案結構
-
-```
-restaurant-booking-recommender/
-├── App/                # Android前端App，負責用戶介面與互動
-│   ├── MainActivity.java、FavorFragment.java、MapsFragment.java ...
-│   ├── Adapter/        # RecyclerView等UI元件Adapter
-│   └── ForGoogleMaps/  # Google Maps輔助類別
-│
-├── CHATBOT/            # 智能聊天機器人後端
-│   ├── main.py         # Flask+SocketIO主伺服器
-│   ├── chat_function.py、classification_function.py ...
-│   └── requirements.txt
-│
-├── Data/               # 數據處理與管理
-│   ├── data_raw/       # 原始數據
-│   ├── data_processed/ # 處理後數據
-│   └── scripts/        # 數據處理腳本
-│
-├── Search_data/        # Google Maps自動化數據收集
-│   └── Google_Map/     # 各類爬蟲與API收集模組
-│
-├── Train/              # 機器學習模型訓練
-│   ├── NLU_BERT_MULTILABEL.ipynb
-│   ├── NLU_FOR_Binary.ipynb
-│   └── LLaMA-3微調notebook
-│
-└── README.md           # 專案總說明
-```
-
-## �� 快速開始
-
-### 1. 專案下載與子模組初始化
-
-本專案的 `Search_data` 目錄採用 git submodule 管理，請務必使用下列指令完整下載主專案及其子模組：
-
-```bash
-# 1. 下載主專案（請將你的帳號替換為實際GitHub帳號）
-git clone https://github.com/你的帳號/restaurant-booking-recommender.git
-cd restaurant-booking-recommender
-
-# 2. 初始化並下載所有子模組（包含Search_data）
-git submodule update --init --recursive
-```
-
-> **注意：** 若已經clone過主專案但未下載子模組，可直接在專案根目錄執行：
-> ```bash
-> git submodule update --init --recursive
-> ```
-
-### 2. 環境需求
-- Python 3.8+
-- 8GB+ RAM (推薦16GB)
-- GPU支援 (用於模型訓練)
-
-### 3. 安裝依賴
-```bash
-# 克隆專案
-git clone <repository-url>
-cd restaurant-booking-recommender
-
-# 安裝聊天機器人依賴
-cd CHATBOT
-pip install -r requirements.txt
-
-# 安裝數據收集依賴
-cd ../Search_data/Google_Map
-pip install -r requirements.txt
-
-# 安裝數據處理依賴
-cd ../../Data/scripts
-pip install pandas numpy requests beautifulsoup4
-```
-
-### 4. 模型權重下載
-請至 [Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing) 下載所有模型資料夾，並放置於對應目錄。
-
-**必要模型目錄：**
-- `CHATBOT/output/` - NER模型
-- `CHATBOT/output2_dia_*/` - 對話模型
-- `CHATBOT/new_result/` - NLU模型
-- `CHATBOT/Is_Collect_or_Function/` - 收集分類模型
-- `CHATBOT/NLG_TAIDE/` - NLG模型
-- `CHATBOT/shibing624_text2vec-base-chinese/` - 文本向量模型
-
-### 5. 解壓縮資料檔案
-專案中的資料檔案採用 `.gz` 壓縮格式以節省空間，請先解壓縮：
-
-```bash
-# 進入CHATBOT目錄
-cd CHATBOT
-
-# 解壓縮所有.gz檔案
-gunzip *.json.gz
-
-# 或使用Python解壓縮（如果沒有gunzip指令）
-python -c "
-import gzip
-import json
-import os
-
-# 解壓縮檔案列表
-files_to_decompress = [
-    'data.json.gz',
-    'storeinfo_review.json.gz', 
-    'tag_embeddings.json.gz',
-    'updated_storeinfo_tablesm.json.gz'
-]
-
-for file in files_to_decompress:
-    if os.path.exists(file):
-        with gzip.open(file, 'rt', encoding='utf-8') as f_in:
-            data = json.load(f_in)
-        output_file = file.replace('.gz', '')
-        with open(output_file, 'w', encoding='utf-8') as f_out:
-            json.dump(data, f_out, ensure_ascii=False, indent=2)
-        print(f'已解壓縮: {file} -> {output_file}')
-    else:
-        print(f'檔案不存在: {file}')
-"
-```
-
-**解壓縮後會產生：**
-- `data.json` - 餐廳基本資料
-- `storeinfo_review.json` - 餐廳評論與詳細資料
-- `tag_embeddings.json` - 標籤向量嵌入
-- `updated_storeinfo_tablesm.json` - 精簡版餐廳評論資料
-
-## 📋 使用指南
-
-### 🤖 聊天機器人 (CHATBOT)
-
-**主要功能：**
-- 餐廳推薦與訂位協助
-- 評論查詢與地圖導航
-- 智能問答與多輪對話
-- 用戶意圖識別與實體提取
-
-**啟動方式：**
-```bash
-cd CHATBOT
-
-#使用參數化方式
-python script.py start          # 基本啟動
-python script.py start --debug  # 調試模式
-python script.py start --external  # 外部訪問
-
-# 或是 直接啟動（簡化）
-python main.py
-
-```
-
-**配置管理：**
-- 所有路徑配置在 `config.py` 中統一管理
-- API金鑰在 `.env` 文件中設定
-- 詳細配置說明請參考 `CONFIG_SUMMARY.md`
-
-### 🗺️ 數據收集 (Search_data)
-
-**功能模組：**
-- **座標生成**: 產生目標區域的經緯度座標
-- **店家搜尋**: 使用Google API或爬蟲搜尋附近店家
-- **資料收集**: 自動收集店家資訊、圖片、評論
-- **批次處理**: 支援大量數據的批次處理
-
-**使用流程：**
-1. 使用 `search_coordinate` 產生目標區域座標
-2. 使用 `search_store_with_google` 搜尋店家
-3. 使用 `search_store_Data/Picture/Review` 收集詳細資料
-
-**注意事項：**
-- 請遵守Google Maps使用規範
-- 建議使用虛擬環境
-- 各模組皆有獨立README說明
-
-### 🧠 模型訓練 (Train)
-
-**訓練模型：**
-- **多標籤分類**: 識別用戶意圖的多個標籤組合
-- **二分類**: 針對特定功能進行精確分類
-- **LLaMA-3微調**: 使用LoRA技術微調大語言模型
-
-**執行順序：**
-1. 先訓練基礎的二分類模型
-2. 再訓練多標籤分類模型
-3. 最後進行大語言模型微調
-
-**環境需求：**
-- GPU環境（推薦用於LLaMA-3微調）
-- 充足的記憶體和儲存空間
-
-### 📊 數據處理 (Data)
-
-**數據流程：**
-1. **原始數據** → 放在 `data_raw/`
-2. **處理腳本** → 使用 `scripts/` 中的腳本
-3. **處理結果** → 輸出到 `data_processed/`
-
-**主要腳本：**
-- `change_to_json.py`: 轉換為JSON格式
-- `main_trans.py`: 主要翻譯處理
-- `chat_traindata_alpach_format.py`: Alpaca格式轉換
-
-**數據格式：**
-- 原始格式：使用特殊標籤如 `<G>`, `<USER>`, `<LABEL>`, `<BOT>`
-- JSON格式：標準化的對話數據格式
-- Alpaca格式：適用於大語言模型微調
-
-## 🔧 進階配置
-
-### API金鑰設定
-```bash
-# 複製環境變數範本
-修改 CHATBOT/env_api_key.env (BLAND AI API KEY）
-
-# 編輯.env文件，填入您的API金鑰
-# - Google Maps API Key
-```
-
-### 模型參數調整
-- **NLU模型**: 修改 `Train/` 中的notebook檔案
-- **對話策略**: 修改 `CHATBOT/dp_function.py`
-- **用戶管理**: 修改 `CHATBOT/user_information.py`
-
-### 數據庫配置
-- 餐廳資料：`CHATBOT/data.json`
-- 評論資料：`CHATBOT/storeinfo_review.json`
-- 標籤嵌入：`CHATBOT/tag_embeddings.json`
-
-## 📈 性能優化
-
-### 記憶體優化
-- 使用4-bit量化模型
-- 批次處理大量數據
-- 定期清理暫存檔案
-
-### 速度優化
-- GPU加速模型推理
-- 快取常用數據
-- 並行處理多個請求
-
-### 準確度提升
-- 定期更新訓練數據
-- 調整模型超參數
-- 使用更先進的預訓練模型
-
-## 🛠️ 開發指南
-
-### 新增功能
-1. 在對應模組中新增功能檔案
-2. 更新配置檔案
-3. 添加測試腳本
-4. 更新文檔說明
-
-### 除錯技巧
-```bash
-# 環境檢查
-cd CHATBOT
-python script.py setup
-
-# 快速測試
-python script.py test
-
-# 查看狀態
-python script.py status
-```
-
-### 測試流程
-1. 單元測試：測試各功能模組
-2. 整合測試：測試模組間互動
-3. 端到端測試：測試完整流程
-
-## 📝 常見問題
-
-### 啟動問題
-- **模型權重未下載**: 確保所有模型目錄存在
-- **依賴套件缺失**: 執行 `python script.py setup`
-- **API金鑰未設定**: 檢查 `.env` 文件
-
-### 功能問題
-- **詢問模式**: 輸入"0"可結束多輪詢問
-- **路徑錯誤**: 檢查 `config.py` 中的路徑設定
-- **模型載入失敗**: 確認模型文件完整性
-
-### 性能問題
-- **記憶體不足**: 使用量化模型或減少批次大小
-- **速度慢**: 檢查GPU使用情況，考慮使用更快的模型
-- **準確度低**: 增加訓練數據，調整模型參數
-
-## 🔒 安全注意事項
-
-- **API金鑰**: 請勿上傳至公開倉庫
-- **大型文件**: 已在 `.gitignore` 中排除
-- **環境變數**: 使用 `.env` 文件管理敏感信息
-- **數據隱私**: 遵守相關數據保護法規
-
-## 📊 專案統計
-
-- **代碼行數**: 10,000+ 行
-- **模型數量**: 5+ 個預訓練模型
-- **數據量**: 數百MB的餐廳數據
-- **支援語言**: 中文、英文
-- **功能模組**: 4個主要模組
-
-## 🤝 貢獻指南
-
-1. Fork 專案
-2. 創建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 開啟 Pull Request
-
-## 🙏 致謝
-
-- 感謝所有開源專案的貢獻者
-- 感謝Google Maps API的支援
-- 感謝Hugging Face提供的預訓練模型
-- 感謝所有測試用戶的寶貴意見
+---
+
+## ⚠️ 開始前請先解壓縮資料
+
+請先解壓縮下列壓縮檔案，否則後續資料處理與模型訓練將無法順利進行：
+
+1. 進入 `Data` 資料夾，解壓縮原始與處理後數據：
+   ```bash
+   cd Data
+   unzip data_raw.zip
+   unzip data_processed.zip
+   ```
+2. 進入 `CHATBOT` 資料夾，確認下列 `.gz` 檔案是否需要解壓縮（如有需要可用 `gunzip` 解壓）：
+   - `data.json.gz`
+   - `storeinfo_review.json.gz`
+   - `tag_embeddings.json.gz`
+   - `updated_storeinfo_tablesm.json.gz`
+   ```bash
+   cd ../CHATBOT
+   gunzip data.json.gz
+   gunzip storeinfo_review.json.gz
+   gunzip tag_embeddings.json.gz
+   gunzip updated_storeinfo_tablesm.json.gz
+   ```
+   > 若程式可直接讀取 `.gz` 檔案則可略過此步驟，否則請先解壓。
 
 ---
 
-**最後更新**: 2024年12月
+## 目錄結構
 
-**版本**: v1.0.0
+- `CHATBOT/`：聊天機器人後端（Python Flask + NLP）
+- `App/`：Android 前端原始碼
+- `Data/`：資料處理與轉換腳本
+- `Train/`：機器學習模型訓練
 
-**狀態**: 穩定版本，持續維護中 
+---
 
-## 📱 App (Android前端)
 
-- 用戶可透過App進行餐廳推薦、訂位、地圖瀏覽、收藏、聊天助理等操作
-- 主要檔案與結構請參考 [`App/README.md`](App/README.md)
 
-## 🤖 CHATBOT (聊天機器人後端)
+## 📋 使用指南
 
-- 提供餐廳推薦、訂位、評論查詢、地圖導航等智能對話服務
-- 支援多輪對話、意圖識別、實體抽取
-- 詳細說明請參考 [`CHATBOT/README.md`](CHATBOT/README.md)
+### 1. 聊天機器人後端（CHATBOT）
 
-## 🗺️ Search_data (數據收集)
+1. 進入資料夾：
+   ```bash
+   cd CHATBOT
+   ```
+2. 安裝依賴：
+   ```bash
+   pip install -r requirements.txt
+   python -m spacy download zh_core_web_sm
+   ```
+3. 下載模型（詳見 CHATBOT/README.md 說明，需將模型資料夾放在指定路徑）。
+4. 設定 API 金鑰：
+   - 編輯 `env_api_key.env` 或 `.env` 檔案，填入金鑰。
+5. 一鍵安裝與啟動（推薦）：
+   ```bash
+   python script.py setup
+   python script.py start
+   ```
+   也可直接執行主程式：
+   ```bash
+   python main.py
+   ```
+6. 其他常用指令請參考 `CHATBOT/README.md`。
 
-- 自動化批次收集Google Maps餐廳資訊、圖片、評論
-- 各模組皆有獨立README，請依需求詳閱
-- 詳細說明請參考 [`Search_data/README.md`](Search_data/README.md)
+---
 
-## 📊 Data (數據處理)
+### 2. Android 前端（App）
 
-- 原始數據、處理後數據、數據處理腳本集中管理
-- 支援多種對話格式轉換、翻譯、清洗
-- 詳細說明請參考 [`Data/README.md`](Data/README.md)
+1. 進入資料夾：
+   ```bash
+   cd App
+   ```
+2. 使用 Android Studio 開啟本資料夾，依需求編譯與執行。
+3. 主要功能與頁面說明請參考 `App/README.md`。
 
-## 🧠 Train (模型訓練)
+---
 
-- 多標籤分類、二分類、LLaMA-3微調等模型訓練notebook
-- 詳細說明請參考 [`Train/README.md`](Train/README.md)
+### 3. 資料處理（Data）
 
-## 📝 注意事項
+1. 進入資料夾：
+   ```bash
+   cd Data
+   ```
+2. 原始資料放於 `data_raw/`，處理後資料於 `data_processed/`。
+3. 使用 `scripts/` 內的 Python 腳本進行格式轉換、翻譯等：
+   ```bash
+   cd scripts
+   python change_to_json.py
+   # 其他腳本請參考 Data/README.md
+   ```
+4. 詳細資料格式與流程請參考 `Data/README.md`。
 
-- 請依各子資料夾README進行詳細操作
-- 敏感資訊與大型檔案已排除於git追蹤
-- 若有新功能或重大變更，請同步更新各README
+---
+
+### 4. 機器學習訓練（Train）
+
+1. 進入資料夾：
+   ```bash
+   cd Train
+   ```
+2. 依需求執行 Jupyter Notebook 進行模型訓練：
+   - `NLU_BERT_MULTILABEL.ipynb`：多標籤分類
+   - `NLU_FOR_Binary.ipynb`：二分類
+   - `Finetune_Llama3_with_LLaMA_Factory_ipynb`：LLaMA-3 微調
+3. 需先安裝相關 Python 套件：
+   ```bash
+   pip install transformers datasets accelerate torch
+   ```
+4. 詳細訓練流程與參數請參考 `Train/README.md`。
+
+---
+
+## 注意事項
+
+- 請依各子資料夾 README 進行詳細操作。
+- 敏感金鑰請勿上傳至公開倉庫。
+- 大型模型與資料檔案請依說明下載並放置正確路徑。
+- 執行訓練前請備份重要資料。
+
+---
+
+如需更詳細的說明，請參考各子資料夾內的 `README.md` 文件。

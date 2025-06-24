@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Typing Effect</title>
+</head>
+<body>
+    <ul id="messages"></ul>
+    <input id="message_input" autocomplete="off" disabled>
+    <button onclick="sendMessage()" disabled>Send</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+    <script>
+        var socket = io.connect("http://127.0.0.1:5000/");
+        var ready = false;
+
+        // Function to simulate typing effect
+        function typeWriterEffect(element, message, index) {
+            if (index < message.length) {
+                element.textContent += message.charAt(index);
+                setTimeout(function() {
+                    typeWriterEffect(element, message, index + 1);
+                }, 100); // Delay between each character, can be adjusted for speed
+            }
+        }
+
+        socket.on('message', function(msg) {
+            var ul = document.getElementById('messages');
+            var li = document.createElement('li');
+            ul.appendChild(li);
+
+            // Trigger typing effect for each new message
+            typeWriterEffect(li, msg, 0);
+
+            // Enable input and button after initialization
+            if (msg === "準備完畢......") {
+                ready = true;
+                document.getElementById('message_input').removeAttribute('disabled');
+                document.querySelector('button').removeAttribute('disabled');
+            }
+        });
+
+        function sendMessage() {
+            if (ready) {
+                var inputElement = document.getElementById('message_input');
+                var message = inputElement.value;
+                socket.emit('message', message);
+                inputElement.value = '';
+            } else {
+                alert("請等待準備中...");
+            }
+        }
+    </script>
+</body>
+</html>
