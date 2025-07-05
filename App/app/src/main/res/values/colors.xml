@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="gray">#41FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#1D8FEA</color>
+    <color name="lavender">#8692f7</color>
+    <color name="smoke">#F7D5DADF</color>
+    <color name="colorOnboardingIndicatorInactive">#72BCF7</color>
+    <color name="red">#E31D1D</color>
+    <color name="bot_message_background">#5A78E2</color>
+    <color name="user_message_background">#FFEB3B</color>
+    <color name="sky_blue">#37E0F6</color>
+</resources>
