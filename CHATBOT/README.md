@@ -19,15 +19,15 @@
    pip install -r requirements.txt
    python -m spacy download zh_core_web_sm
    ```
-2. **解壓縮資料檔案**（若程式無法直接讀取 .gz 請先解壓）
+2. **解壓縮資料檔案**（若程式無法直接讀取 .zip 請先解壓）
    ```bash
-   gunzip data.json.gz
-   gunzip storeinfo_review.json.gz
-   gunzip tag_embeddings.json.gz
-   gunzip updated_storeinfo_tablesm.json.gz
+   gunzip data.json.zip
+   gunzip storeinfo_review.json.zip
+   gunzip tag_embeddings.json.zip
+   gunzip updated_storeinfo_tablesm.json.zip
    ```
 3. **下載模型權重**
-   - 請至 [Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing) 下載所有模型資料夾，依說明放置於本資料夾下。
+   - 請至 [Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing) 下載所有模型資料夾，依說明放置本資料夾下的model資料夾中。
 
 ---
 

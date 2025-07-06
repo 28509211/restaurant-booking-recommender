@@ -23,19 +23,19 @@
    unzip data_raw.zip
    unzip data_processed.zip
    ```
-2. 進入 `CHATBOT` 資料夾，確認下列 `.gz` 檔案是否需要解壓縮（如有需要可用 `gunzip` 解壓）：
-   - `data.json.gz`
-   - `storeinfo_review.json.gz`
-   - `tag_embeddings.json.gz`
-   - `updated_storeinfo_tablesm.json.gz`
+2. 進入 `CHATBOT` 資料夾，確認在data資料夾下的 `.zip` 檔案是否需要解壓縮（如有需要可用 `gunzip` 解壓）：
+   - `data.json.zip`
+   - `storeinfo_review.json.zip`
+   - `tag_embeddings.json.zip`
+   - `updated_storeinfo_tablesm.json.zip`
    ```bash
    cd ../CHATBOT
-   gunzip data.json.gz
-   gunzip storeinfo_review.json.gz
-   gunzip tag_embeddings.json.gz
-   gunzip updated_storeinfo_tablesm.json.gz
+   gunzip data.json.zip
+   gunzip storeinfo_review.json.zip
+   gunzip tag_embeddings.json.zip
+   gunzip updated_storeinfo_tablesm.json.zip
    ```
-   > 若程式可直接讀取 `.gz` 檔案則可略過此步驟，否則請先解壓。
+   > 若程式可直接讀取 `.zip` 檔案則可略過此步驟，否則請先解壓。
 
 ---
 
