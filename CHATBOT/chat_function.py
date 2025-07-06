@@ -10,7 +10,6 @@ from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
 import os
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
-from sentence_transformers import SentenceTransformer
 from llamafactory.chat import ChatModel
 from llamafactory.extras.misc import torch_gc
 import time

@@ -304,18 +304,7 @@ def handle_message( message ):
     
 
 def get_local_ips(port=5000):
-    # 取得目前主機的所有 IP 位址
-    ips = socket.gethostbyname_ex(socket.gethostname())[2]
-    try:
-        # 加上 Tailscale IP（如果有）
-        import subprocess
-        tailscale_ip = subprocess.check_output("tailscale ip -4", shell=True).decode().strip()
-        if tailscale_ip:
-            ips.append(tailscale_ip)
-    except Exception:
-        pass
-
-    urls = [f"http://{ip}:{port}" for ip in ips]
+    urls = [f"http://127.0.0.1:{port}"]
     return urls
 
 

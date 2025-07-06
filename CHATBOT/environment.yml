@@ -1,0 +1,41 @@
+name: chatbot
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pandas=2.2.3
+
+  - pip:
+    - Flask==3.1.1
+    - Flask-SocketIO==5.5.1
+
+    - langchain==0.3.26
+    - langchain-community==0.3.26
+    - langchain-huggingface==0.3.0
+
+    - git+https://github.com/hiyouga/LLaMA-Factory.git
+    - numpy==1.26.4
+
+    - openpyxl==3.1.5
+    - pyngrok==7.2.11
+    - python-dotenv==1.1.0
+    - python-engineio==4.12.2
+
+    - python-Levenshtein==0.12.2
+
+    - requests==2.32.4
+    - scikit-learn==1.6.1
+    - sentence-transformers==4.1.0
+    - spacy==3.8.2
+    - gevent==25.5.1
+
+      # torch + torchvision 可合併 pip 安裝
+    - torch==2.7.1+cu118
+    - torchvision==0.22.1+cu118
+    - torchaudio==2.7.1+cu118
+    - --extra-index-url https://download.pytorch.org/whl/cu118
+
+    - transformers==4.52.4
+    - jieba==0.42.1
+
+    - bitsandbytes==0.46.0

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">訂食吧</string>
+    <string name="login">登入</string>
+    <string name="welcomeText">歡迎!</string>
+    <string name="HelloText">你好啊新人:D</string>
+    <string name="SignUp">註冊</string>
+    <string name="username">請輸入姓名</string>
+    <string name="emailName">請輸入信箱</string>
+    <string name="address">請輸入家裡地址</string>
+    <string name="phonenumber">請輸入手機號碼</string>
+    <string name="Password">請輸入密碼</string>
+    <string name="registerText">還沒註冊嗎?</string>
+    <string name="signInText">註冊過了?案這裡登入</string>
+    <string name="favorText">大家都喜歡</string>
+    <string name="FoodMapText">美食地圖</string>
+    <string name="AssistentText">語音助理</string>
+    <string name="back">返回首頁</string>
+    <string name="accountText">帳號</string>
+    <string name="title_activity_login" translatable="false">Login</string>
+    <string name="prompt_email" translatable="false">Email</string>
+    <string name="prompt_password" translatable="false">Password</string>
+    <string name="action_sign_in" translatable="false">Sign in or register</string>
+    <string name="action_sign_in_short" translatable="false">Sign in</string>
+    <string name="welcome" translatable="false">"Welcome !"</string>
+    <string name="invalid_username" translatable="false">Not a valid username</string>
+    <string name="invalid_password" translatable="false">Password must be >5 characters</string>
+    <string name="login_failed" translatable="false">"Login failed"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="BeginnerButton">這是一個到最後一頁就會跳進主畫面的按鈕</string>
+    <string name="store_phone">Store Phone</string>
+    <string name="store_pic">店家圖片</string>
+    <string name="my_favorite">我的最愛</string>
+    <string name="add_to_cart">加入購物車</string>
+    <string name="usergender">輸入性別(請輸入先生或女士)</string>
+</resources>

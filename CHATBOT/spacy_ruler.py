@@ -7,7 +7,7 @@ def Add_Ruler( nlp, label_type ) :
     with open( DATA_JSON, 'r', encoding='utf-8' ) as f :
         ruler_data = json.load( f ) 
 
-    # nlp = spacy.load(r"./output1/model-best")
+ 
     ruler = nlp.add_pipe("entity_ruler")
     patterns = []
 
