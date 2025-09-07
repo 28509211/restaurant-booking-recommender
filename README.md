@@ -13,68 +13,76 @@
 
 ---
 
-## 快速開始，⚠️ 開始前請先解壓縮資料
+## ⚠️ 快速開始 - 開始前請先解壓縮資料
 
 請先解壓縮下列壓縮檔案，否則後續資料處理與模型訓練將無法順利進行：
 
-1. 進入 `CHATBOT` 資料夾，解壓縮DATA資料夾下的檔案：
-   ```bash
-   cd Data
-    ```
+### 1. 解壓縮資料檔案
 
-   安裝解壓縮工具(如下) 或是 手動解壓縮:
-   ```bash
-   sudo apt-get update
-   sudo apt-get install p7zip-full p7zip-rar
-   ```
+進入 \`CHATBOT\` 資料夾，解壓縮 DATA 資料夾下的檔案：
 
-   ```bash
-   7za x data.7z
-   7za x storeinfo_review.7z
-   7za x tag_embeddings.7z
-   7za x updated_storeinfo_tablesm.7z
-   ```
+\`\`\`bash
+cd Data
+\`\`\`
 
-2. 根據模型連結下載模型權重([Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing) )，放到model資料夾中
-  
-3. 建立CHATBOT環境
+安裝解壓縮工具（如下）或是手動解壓縮：
 
+\`\`\`bash
+sudo apt-get update
+sudo apt-get install p7zip-full p7zip-rar
+\`\`\`
+
+\`\`\`bash
+7za x data.7z
+7za x storeinfo_review.7z
+7za x tag_embeddings.7z
+7za x updated_storeinfo_tablesm.7z
+\`\`\`
+
+### 2. 下載模型權重
+
+根據模型連結下載模型權重（[Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing)），放到 model 資料夾中
+
+### 3. 建立 CHATBOT 環境
+
+\`\`\`bash
 cd CHATBOT
+\`\`\`
 
-</details>
+<details>
 <summary><b>📦 方法一：使用 pip 安裝</b></summary>
 
-```bash
+\`\`\`bash
 # 安裝 Python 依賴套件
 pip install -r requirements.txt
-```
+\`\`\`
 
 </details>
 
 <details>
 <summary><b>🐍 方法二：使用 Conda 環境</b></summary>
 
-```bash
+\`\`\`bash
 # 創建並激活 Conda 環境
 conda env create -f environment.yml
 conda activate chatbot
-```
+\`\`\`
 
 </details>
 
 <details>
 <summary><b>🐳 方法三：使用 Docker 容器</b></summary>
 
-```bash
+\`\`\`bash
 # 建構 Docker 映像
 docker build -t t-chatbot .
 
-# 運行容器 (支援 GPU)   /path/to/data 可以在本機中的放置data資料夾的位置  /path/to/model 可以在本機中的放置model資料夾的位置
-docker run --gpus all -it \
-  --name chatbot_env \
-  -v /path/to/data:/app/data \
-  -v /path/to/model:/app/model \
-  -p 5000:5000 \
+# 運行容器 (支援 GPU) /path/to/data 可以在本機中的放置data資料夾的位置 /path/to/model 可以在本機中的放置model資料夾的位置
+docker run --gpus all -it \\
+  --name chatbot_env \\
+  -v /path/to/data:/app/data \\
+  -v /path/to/model:/app/model \\
+  -p 5000:5000 \\
   t-chatbot /bin/bash
 
 # 裝編譯修改氣，方便修改code
@@ -83,45 +91,52 @@ apt-get install nano -y
 
 # 激活環境
 conda activate chatbot
+\`\`\`
 
-```
 </details>
 
-4.🔑 API 金鑰設定
+### 4. API 金鑰設定
 
-- 請編輯 `env_api_key.env` 或 `.env` 檔案，填入您的 API 金鑰，例如：
-  ```env
-  # Bland AI API Key (用於電話訂位功能)
-  BLAND_AI_API_KEY=your_bland_ai_api_key_here
-  ```
+請編輯 \`env_api_key.env\` 或 \`.env\` 檔案，填入您的 API 金鑰，例如：
 
-5. 開啟CHATBOT SERVER
+\`\`\`env
+# Bland AI API Key (用於電話訂位功能)
+BLAND_AI_API_KEY=your_bland_ai_api_key_here
+\`\`\`
+
+### 5. 開啟 CHATBOT SERVER
 
 ## 🛠️ 一鍵啟動與常用指令
 
-1. **一鍵安裝與啟動（推薦）**
-   ```bash
-   python script.py setup    # 檢查/安裝依賴、下載模型、檢查資料
-   python script.py start    # 啟動伺服器
-   ```
-2. **手動啟動主程式**
-   ```bash
-   python main.py
-   ```
-3. **其他常用指令**
-   ```bash
-   python script.py test     # 快速測試
-   python script.py status   # 查看狀態
-   python script.py help     # 參數說明
-   python script.py setup    # 首次使用 - 完整設定
-   python script.py config-ip --ip YOUR_SERVER_IP #配置模板 IP（如果需要外部訪問）
-   python script.py restore-template #如果需要還原模板
-   
-6. 開啟資料庫(DB) SERVER
+### 1. 一鍵安裝與啟動（推薦）
+
+\`\`\`bash
+python script.py setup    # 檢查/安裝依賴、下載模型、檢查資料
+python script.py start    # 啟動伺服器
+\`\`\`
+
+### 2. 手動啟動主程式
+
+\`\`\`bash
+python main.py
+\`\`\`
+
+### 3. 其他常用指令
+
+\`\`\`bash
+python script.py test     # 快速測試
+python script.py status   # 查看狀態
+python script.py help     # 參數說明
+python script.py setup    # 首次使用 - 完整設定
+python script.py config-ip --ip YOUR_SERVER_IP # 配置模板 IP（如果需要外部訪問）
+python script.py restore-template # 如果需要還原模板
+\`\`\`
+
+### 6. 開啟資料庫（DB）SERVER
 
 ## ⚡ 一鍵啟動
 
-```bash
+\`\`\`bash
 # 1. 進入 DB 目錄
 cd DB
 
@@ -133,21 +148,22 @@ docker compose build --no-cache
 
 # 4. 啟動所有服務
 docker compose up -d
+\`\`\`
 
-```
+### 7. 使用 Android Studio 開啟 App 資料夾
 
-7.使用Android Studio開啟App資料夾即可進入介面
-
-
-## 目錄結構
-
-- `CHATBOT/`：聊天機器人後端（Python Flask + NLP）
-- `App/`：Android 前端原始碼
-- `Data/`：資料處理與轉換腳本
-- `Train/`：機器學習模型訓練
+使用 Android Studio 開啟 App 資料夾即可進入介面
 
 ---
 
+## 📁 目錄結構
+
+- \`CHATBOT/\`：聊天機器人後端（Python Flask + NLP）
+- \`App/\`：Android 前端原始碼
+- \`Data/\`：資料處理與轉換腳本
+- \`Train/\`：機器學習模型訓練
+
+---
 
 
 ## 📋 使用指南
@@ -159,10 +175,6 @@ docker compose up -d
    cd CHATBOT
    ```
 2. 安裝依賴：
-   ```bash
-   pip install -r requirements.txt
-   python -m spacy download zh_core_web_sm
-   ```
 3. 下載模型（詳見 CHATBOT/README.md 說明，需將模型資料夾放在指定路徑）。
 4. 設定 API 金鑰：
    - 編輯 `env_api_key.env` 或 `.env` 檔案，填入金鑰。
