@@ -1,0 +1,65 @@
+services:
+  db:
+    image: mariadb:10.11
+    container_name: restaurant-db
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: ${DB_NAME}
+      TZ: ${TZ}
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./db/init:/docker-entrypoint-initdb.d  
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:5-apache
+    container_name: restaurant-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASSWORD}
+      TZ: ${TZ}
+    ports:
+      - "${PHPMYADMIN_PORT}:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  api-php:
+    build: ./api
+    container_name: restaurant-api
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: 3306
+      TZ: ${TZ}
+    volumes:
+      - ./api:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+    
+  api-flask:
+    build: ./flask
+    container_name: restaurant-flask
+    environment:
+      FLASK_HOST: ${FLASK_HOST}
+      FLASK_PORT: ${FLASK_PORT}
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+    ports:
+      - "${FLASK_PORT}:${FLASK_PORT}"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  dbdata:
