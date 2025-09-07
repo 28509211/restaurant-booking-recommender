@@ -1,249 +1,377 @@
-# Restaurant Booking Recommender System
-# 智能餐廳訂位推薦系統
+<div align="center">
+
+# 🍽️ Restaurant Booking Recommender System
+## 智能餐廳訂位推薦系統
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+[![Android](https://img.shields.io/badge/Android-API%2021+-green.svg)](https://developer.android.com)
+[![Flask](https://img.shields.io/badge/Flask-2.0+-red.svg)](https://flask.palletsprojects.com)
+[![Docker](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://docker.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 一個整合聊天機器人、數據收集、機器學習訓練、Android前端App的全流程智能餐廳推薦與訂位系統。
 
-## 🌟 專案特色
+[🚀 快速開始](#-快速開始) • [📖 文檔](#-文檔) • [🏗️ 架構](#️-系統架構) • [🤝 貢獻](#-貢獻)
 
-- **🤖 智能聊天機器人**: 基於深度學習的多輪對話系統，支援餐廳推薦、訂位、評論查詢
-- **🧠 機器學習模型**: 多標籤分類、二分類、LLaMA-3微調等多種模型
-- **📊 數據處理管道**: 完整的數據清洗、格式轉換、訓練數據生成流程
-- **📱 Android前端App**: 提供用戶友善的推薦、訂位、地圖、聊天等功能
-- **🔧 模組化設計**: 各功能模組獨立，易於維護和擴展
+</div>
 
 ---
 
-## ⚠️ 快速開始 - 開始前請先解壓縮資料
+## ✨ 專案特色
 
-請先解壓縮下列壓縮檔案，否則後續資料處理與模型訓練將無法順利進行：
+<table>
+<tr>
+<td width="50%">
 
-### 1. 解壓縮資料檔案
+### 🤖 智能聊天機器人
+- 基於深度學習的多輪對話系統
+- 支援餐廳推薦、訂位、評論查詢
+- 自然語言理解與生成
 
-進入 \`CHATBOT\` 資料夾，解壓縮 DATA 資料夾下的檔案：
+### 🧠 機器學習模型
+- 多標籤分類模型
+- 二分類模型
+- LLaMA-3微調模型
 
-\`\`\`bash
+</td>
+<td width="50%">
+
+### 📊 數據處理管道
+- 完整的數據清洗流程
+- 格式轉換與標準化
+- 訓練數據自動生成
+
+### 📱 Android前端App
+- 用戶友善的推薦介面
+- 訂位與地圖功能
+- 即時聊天整合
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🚀 快速開始
+
+> ⚠️ **重要提醒**: 開始前請先解壓縮資料檔案，否則後續資料處理與模型訓練將無法順利進行
+
+### 📋 前置準備
+
+<details>
+<summary><b>📦 1. 解壓縮資料檔案</b></summary>
+
+```bash
+# 進入 Data 資料夾
 cd Data
-\`\`\`
 
-安裝解壓縮工具（如下）或是手動解壓縮：
-
-\`\`\`bash
+# 安裝解壓縮工具（Ubuntu/Debian）
 sudo apt-get update
 sudo apt-get install p7zip-full p7zip-rar
-\`\`\`
 
-\`\`\`bash
+# 解壓縮所有資料檔案
 7za x data.7z
 7za x storeinfo_review.7z
 7za x tag_embeddings.7z
 7za x updated_storeinfo_tablesm.7z
-\`\`\`
-
-### 2. 下載模型權重
-
-根據模型連結下載模型權重（[Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing)），放到 model 資料夾中
-
-### 3. 建立 CHATBOT 環境
-
-\`\`\`bash
-cd CHATBOT
-\`\`\`
-
-<details>
-<summary><b>📦 方法一：使用 pip 安裝</b></summary>
-
-\`\`\`bash
-# 安裝 Python 依賴套件
-pip install -r requirements.txt
-\`\`\`
+```
 
 </details>
 
 <details>
-<summary><b>🐍 方法二：使用 Conda 環境</b></summary>
+<summary><b>🤖 2. 下載模型權重</b></summary>
 
-\`\`\`bash
-# 創建並激活 Conda 環境
+下載模型權重並放置到 `model` 資料夾中：
+
+🔗 [Google Drive 模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing)
+
+</details>
+
+<details>
+<summary><b>🔑 3. API 金鑰設定</b></summary>
+
+編輯 `CHATBOT/env_api_key.env` 檔案：
+
+```env
+# Bland AI API Key (用於電話訂位功能)
+BLAND_AI_API_KEY=your_bland_ai_api_key_here
+```
+
+</details>
+
+### 🛠️ 環境安裝
+
+選擇適合您的安裝方式：
+
+<details>
+<summary><b>📦 方法一：pip 安裝（推薦新手）</b></summary>
+
+```bash
+cd CHATBOT
+pip install -r requirements.txt
+```
+
+</details>
+
+<details>
+<summary><b>🐍 方法二：Conda 環境（推薦開發者）</b></summary>
+
+```bash
+cd CHATBOT
 conda env create -f environment.yml
 conda activate chatbot
-\`\`\`
+```
 
 </details>
 
 <details>
-<summary><b>🐳 方法三：使用 Docker 容器</b></summary>
+<summary><b>🐳 方法三：Docker 容器（推薦生產環境）</b></summary>
 
-\`\`\`bash
+```bash
+cd CHATBOT
+
 # 建構 Docker 映像
 docker build -t t-chatbot .
 
-# 運行容器 (支援 GPU) /path/to/data 可以在本機中的放置data資料夾的位置 /path/to/model 可以在本機中的放置model資料夾的位置
-docker run --gpus all -it \\
-  --name chatbot_env \\
-  -v /path/to/data:/app/data \\
-  -v /path/to/model:/app/model \\
-  -p 5000:5000 \\
+# 運行容器（支援 GPU）
+docker run --gpus all -it \
+  --name chatbot_env \
+  -v /path/to/data:/app/data \
+  -v /path/to/model:/app/model \
+  -p 5000:5000 \
   t-chatbot /bin/bash
 
-# 裝編譯修改氣，方便修改code
-apt-get update
-apt-get install nano -y
+# 安裝編輯器
+apt-get update && apt-get install nano -y
 
 # 激活環境
 conda activate chatbot
-\`\`\`
+```
 
 </details>
 
-### 4. API 金鑰設定
+### ⚡ 一鍵啟動
 
-請編輯 \`env_api_key.env\` 或 \`.env\` 檔案，填入您的 API 金鑰，例如：
+#### 🤖 聊天機器人服務
 
-\`\`\`env
-# Bland AI API Key (用於電話訂位功能)
-BLAND_AI_API_KEY=your_bland_ai_api_key_here
-\`\`\`
+```bash
+cd CHATBOT
 
-### 5. 開啟 CHATBOT SERVER
-
-## 🛠️ 一鍵啟動與常用指令
-
-### 1. 一鍵安裝與啟動（推薦）
-
-\`\`\`bash
+# 一鍵安裝與啟動（推薦）
 python script.py setup    # 檢查/安裝依賴、下載模型、檢查資料
 python script.py start    # 啟動伺服器
-\`\`\`
 
-### 2. 手動啟動主程式
-
-\`\`\`bash
+# 或手動啟動
 python main.py
-\`\`\`
+```
 
-### 3. 其他常用指令
+#### 🗄️ 資料庫服務
 
-\`\`\`bash
-python script.py test     # 快速測試
-python script.py status   # 查看狀態
-python script.py help     # 參數說明
-python script.py setup    # 首次使用 - 完整設定
-python script.py config-ip --ip YOUR_SERVER_IP # 配置模板 IP（如果需要外部訪問）
-python script.py restore-template # 如果需要還原模板
-\`\`\`
-
-### 6. 開啟資料庫（DB）SERVER
-
-## ⚡ 一鍵啟動
-
-\`\`\`bash
-# 1. 進入 DB 目錄
+```bash
 cd DB
 
-# 2. 停止並清理舊容器
-docker compose down -v
+# 一鍵啟動所有服務
+docker compose down -v                    # 停止並清理舊容器
+docker compose build --no-cache          # 重新建構所有服務
+docker compose up -d                     # 啟動所有服務
+```
 
-# 3. 重新建構所有服務
-docker compose build --no-cache
+#### 📱 Android 應用程式
 
-# 4. 啟動所有服務
-docker compose up -d
-\`\`\`
+使用 Android Studio 開啟 `App` 資料夾即可開始開發
 
-### 7. 使用 Android Studio 開啟 App 資料夾
+### 🎯 常用指令
 
-使用 Android Studio 開啟 App 資料夾即可進入介面
+```bash
+# 聊天機器人相關
+python script.py test                    # 快速測試
+python script.py status                  # 查看狀態
+python script.py help                    # 參數說明
+python script.py config-ip --ip YOUR_SERVER_IP  # 配置 IP
+python script.py restore-template        # 還原模板
+```
+
+## 🏗️ 系統架構
+
+```mermaid
+graph TB
+    A[📱 Android App] --> B[🤖 Chatbot API]
+    A --> C[🗄️ Database API]
+    B --> D[🧠 ML Models]
+    B --> E[📊 Data Processing]
+    C --> F[🍽️ Restaurant Data]
+    D --> G[📈 Training Pipeline]
+    E --> G
+```
+
+## 📁 專案結構
+
+```
+restaurant-booking-recommender/
+├── 🤖 CHATBOT/              # 聊天機器人後端
+│   ├── main.py              # 主程式入口
+│   ├── script.py            # 一鍵啟動腳本
+│   ├── requirements.txt     # Python 依賴
+│   └── model/               # 模型權重檔案
+├── 📱 App/                  # Android 前端應用
+│   ├── app/src/main/        # 主要原始碼
+│   └── build.gradle.kts    # 建構配置
+├── 📊 Data/                 # 資料處理與轉換
+│   ├── data_raw/           # 原始資料
+│   ├── data_processed/     # 處理後資料
+│   └── scripts/            # 資料處理腳本
+├── 🧠 Train/               # 機器學習模型訓練
+│   ├── NLU_BERT_MULTILABEL.ipynb
+│   ├── NLU_FOR_Binary.ipynb
+│   └── Finetune_Llama3_with_LLaMA_Factory_ipynb
+└── 🗄️ DB/                  # 資料庫與 API
+    ├── api/                # PHP API 端點
+    ├── flask/              # Flask 後端
+    └── docker-compose.yml  # 容器編排
+```
+
+## 📖 文檔
+
+### 🤖 聊天機器人後端
+
+<details>
+<summary><b>詳細使用說明</b></summary>
+
+**主要功能**：
+- 自然語言理解與生成
+- 餐廳推薦與訂位
+- 多輪對話管理
+
+**快速啟動**：
+```bash
+cd CHATBOT
+python script.py setup && python script.py start
+```
+
+**詳細文檔**：請參考 [`CHATBOT/README.md`](CHATBOT/README.md)
+
+</details>
+
+### 📱 Android 前端
+
+<details>
+<summary><b>詳細使用說明</b></summary>
+
+**主要功能**：
+- 用戶介面與互動
+- 餐廳推薦展示
+- 地圖整合與訂位
+
+**開發環境**：
+```bash
+cd App
+# 使用 Android Studio 開啟專案
+```
+
+**詳細文檔**：請參考 [`App/README.md`](App/README.md)
+
+</details>
+
+### 📊 資料處理
+
+<details>
+<summary><b>詳細使用說明</b></summary>
+
+**主要功能**：
+- 資料清洗與標準化
+- 格式轉換與翻譯
+- 訓練資料生成
+
+**使用方式**：
+```bash
+cd Data/scripts
+python change_to_json.py
+python change_format.py
+# 更多腳本請參考 Data/README.md
+```
+
+**詳細文檔**：請參考 [`Data/README.md`](Data/README.md)
+
+</details>
+
+### 🧠 模型訓練
+
+<details>
+<summary><b>詳細使用說明</b></summary>
+
+**可用模型**：
+- **多標籤分類**：`NLU_BERT_MULTILABEL.ipynb`
+- **二分類模型**：`NLU_FOR_Binary.ipynb`
+- **LLaMA-3 微調**：`Finetune_Llama3_with_LLaMA_Factory_ipynb`
+
+**環境準備**：
+```bash
+pip install transformers datasets accelerate torch
+```
+
+**詳細文檔**：請參考 [`Train/README.md`](Train/README.md)
+
+</details>
+
+## ⚠️ 注意事項
+
+<table>
+<tr>
+<td width="50%">
+
+### 🔐 安全性
+- 敏感金鑰請勿上傳至公開倉庫
+- 使用環境變數管理 API 金鑰
+- 定期更新依賴套件
+
+### 📦 資料管理
+- 大型模型與資料檔案請依說明下載
+- 確保資料檔案放置正確路徑
+- 執行訓練前請備份重要資料
+
+</td>
+<td width="50%">
+
+### 🛠️ 開發建議
+- 請依各子資料夾 README 進行詳細操作
+- 建議使用虛擬環境隔離依賴
+- 定期檢查系統資源使用情況
+
+### 📚 學習資源
+- 詳細文檔請參考各子資料夾內的 `README.md`
+- 建議先熟悉基礎概念再進行進階操作
+
+</td>
+</tr>
+</table>
+
+## 🤝 貢獻
+
+歡迎貢獻代碼、報告問題或提出建議！
+
+### 貢獻方式
+1. Fork 本專案
+2. 創建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 開啟 Pull Request
+
+### 問題回報
+如果您遇到問題，請：
+1. 檢查 [Issues](../../issues) 是否已有類似問題
+2. 提供詳細的錯誤訊息和環境資訊
+3. 附上相關的日誌檔案
+
+## 📄 授權
+
+本專案採用 MIT 授權條款 - 詳見 [LICENSE](LICENSE) 檔案
 
 ---
 
-## 📁 目錄結構
+<div align="center">
 
-- \`CHATBOT/\`：聊天機器人後端（Python Flask + NLP）
-- \`App/\`：Android 前端原始碼
-- \`Data/\`：資料處理與轉換腳本
-- \`Train/\`：機器學習模型訓練
+**⭐ 如果這個專案對您有幫助，請給我們一個 Star！**
 
----
+Made with ❤️ by the Restaurant Booking Team
 
-
-## 📋 使用指南
-
-### 1. 聊天機器人後端（CHATBOT）
-
-1. 進入資料夾：
-   ```bash
-   cd CHATBOT
-   ```
-2. 安裝依賴：
-3. 下載模型（詳見 CHATBOT/README.md 說明，需將模型資料夾放在指定路徑）。
-4. 設定 API 金鑰：
-   - 編輯 `env_api_key.env` 或 `.env` 檔案，填入金鑰。
-5. 一鍵安裝與啟動（推薦）：
-   ```bash
-   python script.py setup
-   python script.py start
-   ```
-   也可直接執行主程式：
-   ```bash
-   python main.py
-   ```
-6. 其他常用指令請參考 `CHATBOT/README.md`。
-
----
-
-### 2. Android 前端（App）
-
-1. 進入資料夾：
-   ```bash
-   cd App
-   ```
-2. 使用 Android Studio 開啟本資料夾，依需求編譯與執行。
-3. 主要功能與頁面說明請參考 `App/README.md`。
-
----
-
-### 3. 資料處理（Data）
-
-1. 進入資料夾：
-   ```bash
-   cd Data
-   ```
-2. 原始資料放於 `data_raw/`，處理後資料於 `data_processed/`。
-3. 使用 `scripts/` 內的 Python 腳本進行格式轉換、翻譯等：
-   ```bash
-   cd scripts
-   python change_to_json.py
-   # 其他腳本請參考 Data/README.md
-   ```
-4. 詳細資料格式與流程請參考 `Data/README.md`。
-
----
-
-### 4. 機器學習訓練（Train）
-
-1. 進入資料夾：
-   ```bash
-   cd Train
-   ```
-2. 依需求執行 Jupyter Notebook 進行模型訓練：
-   - `NLU_BERT_MULTILABEL.ipynb`：多標籤分類
-   - `NLU_FOR_Binary.ipynb`：二分類
-   - `Finetune_Llama3_with_LLaMA_Factory_ipynb`：LLaMA-3 微調
-3. 需先安裝相關 Python 套件：
-   ```bash
-   pip install transformers datasets accelerate torch
-   ```
-4. 詳細訓練流程與參數請參考 `Train/README.md`。
-
----
-
-## 注意事項
-
-- 請依各子資料夾 README 進行詳細操作。
-- 敏感金鑰請勿上傳至公開倉庫。
-- 大型模型與資料檔案請依說明下載並放置正確路徑。
-- 執行訓練前請備份重要資料。
-
----
-
-如需更詳細的說明，請參考各子資料夾內的 `README.md` 文件。
+</div>
