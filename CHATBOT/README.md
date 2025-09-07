@@ -136,7 +136,11 @@ conda activate chatbot
    python script.py test     # 快速測試
    python script.py status   # 查看狀態
    python script.py help     # 參數說明
-   ```
+   python script.py setup    # 首次使用 - 完整設定
+   python script.py config-ip --ip YOUR_SERVER_IP #配置模板 IP（如果需要外部訪問）
+   python script.py restore-template #如果需要還原模板
+   
+
 
 ---
 
@@ -145,6 +149,7 @@ conda activate chatbot
 - `templates/` 資料夾內含 `index.html`，為 Flask 伺服器的聊天網頁前端模板。
 - 啟動伺服器後（預設 http://localhost:5000/ ），可用瀏覽器開啟 `http://[你的IP]:5000/` 進行聊天測試。
 - `index.html` 提供打字特效與互動介面
+- 可以自己更動ip( var socket = io.connect("http://localhost:5000"); )，若想要讓外網也使用到，可以使用ngrok把本地ip變成外網ip，只需要將var socket = io.connect("http://localhost:5000");的ip改成ngrok所提供的其他ip維持即可使用
 
 ---
 

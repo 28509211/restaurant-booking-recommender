@@ -9,6 +9,7 @@ Intelligent Restaurant Chatbot Launcher Script
 - 模型下載和驗證提醒
 - 服務器啟動
 - 功能測試
+- 模板 IP 配置
 """
 
 import os
@@ -16,6 +17,7 @@ import sys
 import subprocess
 import importlib
 import argparse
+import re
 from pathlib import Path
 
 class ChatbotLauncher:
@@ -133,7 +135,7 @@ class ChatbotLauncher:
             return True
         except subprocess.CalledProcessError as e:
             print(f"⚠️  SpaCy模型下載失敗: {e}")
-            print("�� 可以稍後手動執行: python -m spacy download zh_core_web_sm")
+            print("💡 可以稍後手動執行: python -m spacy download zh_core_web_sm")
             return True  # 不阻止啟動
 
     def check_data_files(self):
@@ -193,7 +195,7 @@ class ChatbotLauncher:
             print(f"\n⚠️  缺少 {len(missing)} 個模型目錄")
             print("📥 請從Google Drive下載模型權重：")
             print("   https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing")
-            print("💡 如果只是測試基本功能，可以暫時跳過此檢查")
+            print("�� 如果只是測試基本功能，可以暫時跳過此檢查")
             return False
         
         print("\n✅ 所有模型目錄檢查通過")
@@ -262,6 +264,73 @@ class ChatbotLauncher:
             return True
         except Exception as e:
             print(f"❌ 測試失敗: {e}")
+            return False
+
+    def configure_template_ip(self, ip_address, port=5000):
+        """配置模板中的 IP 地址"""
+        print(f"\n🔧 配置模板 IP 地址: {ip_address}:{port}")
+        
+        template_file = self.project_root / 'templates' / 'index.html'
+        if not template_file.exists():
+            print("❌ templates/index.html 檔案不存在")
+            return False
+        
+        try:
+            # 讀取模板檔案
+            with open(template_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # 備份原始檔案
+            backup_file = template_file.with_suffix('.html.backup')
+            with open(backup_file, 'w', encoding='utf-8') as f:
+                f.write(content)
+            print(f"✅ 已備份原始檔案: {backup_file}")
+            
+            # 替換 IP 地址
+            old_pattern = r'io\.connect\("http://[^"]+"\)'
+            new_url = f'io.connect("http://{ip_address}:{port}")'
+            
+            new_content = re.sub(old_pattern, new_url, content)
+            
+            if new_content != content:
+                # 寫入新內容
+                with open(template_file, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+                print(f"✅ 模板 IP 地址已更新為: {ip_address}:{port}")
+                return True
+            else:
+                print("⚠️  未找到需要替換的 IP 地址")
+                return False
+                
+        except Exception as e:
+            print(f"❌ 配置失敗: {e}")
+            return False
+
+    def restore_template(self):
+        """還原模板檔案"""
+        print("\n🔄 還原模板檔案...")
+        
+        template_file = self.project_root / 'templates' / 'index.html'
+        backup_file = template_file.with_suffix('.html.backup')
+        
+        if not backup_file.exists():
+            print("❌ 找不到備份檔案")
+            return False
+        
+        try:
+            # 讀取備份檔案
+            with open(backup_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # 還原原始內容
+            with open(template_file, 'w', encoding='utf-8') as f:
+                f.write(content)
+            
+            print("✅ 模板檔案已還原")
+            return True
+            
+        except Exception as e:
+            print(f"❌ 還原失敗: {e}")
             return False
 
     def start_server(self, host='localhost', port=5000, debug=False, external=False):
@@ -359,13 +428,14 @@ class ChatbotLauncher:
 def main():
     parser = argparse.ArgumentParser(description='智能餐廳聊天機器人啟動器')
     parser.add_argument('action', nargs='?', default='start', 
-                       choices=['start', 'setup', 'test', 'status', 'help'],
+                       choices=['start', 'setup', 'test', 'status', 'help', 'config-ip', 'restore-template'],
                        help='執行動作')
     parser.add_argument('--host', default='localhost', help='服務器主機')
     parser.add_argument('--port', type=int, default=5000, help='服務器端口')
     parser.add_argument('--debug', action='store_true', help='開啟調試模式')
     parser.add_argument('--external', action='store_true', help='啟用外部訪問')
     parser.add_argument('--strict', action='store_true', help='嚴格模式檢查')
+    parser.add_argument('--ip', help='設定模板中的 IP 地址')
     
     args = parser.parse_args()
     launcher = ChatbotLauncher()
@@ -373,14 +443,34 @@ def main():
     
     if args.action == 'help':
         parser.print_help()
+        print("\n📋 額外功能:")
+        print("  config-ip --ip <IP地址>    設定模板中的 IP 地址")
+        print("  restore-template           還原模板檔案")
         return
+    elif args.action == 'config-ip':
+        if not args.ip:
+            print("❌ 請使用 --ip 參數指定 IP 地址")
+            print("💡 範例: python script.py config-ip --ip 192.168.1.100")
+            sys.exit(1)
+        if launcher.configure_template_ip(args.ip, args.port):
+            print(f"\n🎉 IP 地址配置完成！")
+            print(f"💡 現在可以使用 'python script.py start' 啟動服務器")
+        else:
+            print("\n❌ IP 地址配置失敗")
+            sys.exit(1)
+    elif args.action == 'restore-template':
+        if launcher.restore_template():
+            print("\n�� 模板檔案已還原！")
+        else:
+            print("\n❌ 模板還原失敗")
+            sys.exit(1)
     elif args.action == 'setup':
         if launcher.setup_environment(strict_mode=args.strict):
             print("\n🎉 設定完成！現在可以使用 'python script.py start' 啟動服務器")
         else:
             print("\n❌ 設定失敗，請檢查錯誤信息")
             if not args.strict:
-                print("💡 嘗試使用 --strict 參數進行更嚴格的檢查")
+                print("�� 嘗試使用 --strict 參數進行更嚴格的檢查")
             sys.exit(1)
     elif args.action == 'test':
         if launcher.setup_environment(strict_mode=False):
