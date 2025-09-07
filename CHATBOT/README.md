@@ -14,20 +14,99 @@
 
 ## ⚡ 安裝環境與資料解壓縮
 
-1. **安裝 Python 依賴與 SpaCy 中文模型**
-   ```bash
-   pip install -r requirements.txt
-   python -m spacy download zh_core_web_sm
+1. ## ⚙️ 安裝配置
+
+<details>
+<summary><b>📦 方法一：使用 pip 安裝</b></summary>
+
+```bash
+# 安裝 Python 依賴套件
+pip install -r requirements.txt
+```
+
+</details>
+
+<details>
+<summary><b>🐍 方法二：使用 Conda 環境</b></summary>
+
+```bash
+# 創建並激活 Conda 環境
+conda env create -f environment.yml
+conda activate chatbot
+```
+
+</details>
+
+<details>
+<summary><b>🐳 方法三：使用 Docker 容器</b></summary>
+
+```bash
+# 建構 Docker 映像
+docker build -t t-chatbot .
+
+# 運行容器 (支援 GPU)
+docker run --gpus all -it \
+  --name chatbot_env \
+  -v /path/to/data:/app/data \
+  -v /path/to/model:/app/model \
+  -p 5000:5000 \
+  t-chatbot /bin/bash
+
+# 激活環境
+conda activate chatbot
+
+```
+
+### Docker 參數詳細說明
+
+| 參數 | 說明 | 範例 |
+|------|------|------|
+| `--gpus all` | 啟用所有 GPU 支援 | 用於深度學習模型加速 |
+| `-it` | 互動式終端模式 | 允許與容器互動 |
+| `--name` | 容器名稱 | `chatbot_container` |
+| `-v` | 掛載資料夾 | `-v 主機路徑:容器路徑` |
+| `-p` | 端口映射 | `-p 主機端口:容器端口` |
+
+
+### Docker 範例
+
+```bash
+# 建構 Docker 映像
+docker build -t t-chatbot .
+
+# 運行容器 (支援 GPU)
+docker run --gpus all -it \
+  --name chatbot_env \
+  -v /c/data:/app/data \
+  -v /c/model:/app/model \
+  -p 5000:5000 \
+  t-chatbot /bin/bash
+
+# 激活環境
+conda activate chatbot
+```
+
+</details>
    ```
-2. **解壓縮資料檔案**（若程式無法直接讀取 .zip 請先解壓）
+
+2. **解壓縮資料檔案**（若程式無法直接讀取 .zip 請先解壓），**解壓縮完要放到CHATBOT/data資料夾下**
+
+   安裝解壓縮工具(如下) 或是 手動解壓縮:
    ```bash
-   gunzip data.json.zip
-   gunzip storeinfo_review.json.zip
-   gunzip tag_embeddings.json.zip
-   gunzip updated_storeinfo_tablesm.json.zip
+   sudo apt-get update
+   sudo apt-get install p7zip-full p7zip-rar
    ```
-3. **下載模型權重**
-   - 請至 [Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing) 下載所有模型資料夾，依說明放置本資料夾下的model資料夾中。
+
+   ```bash
+   7za x data.7z
+   7za x storeinfo_review.7z
+   7za x tag_embeddings.7z
+   7za x updated_storeinfo_tablesm.7z
+   ```
+
+
+3. **下載模型權重** **放到CHATBOT/model資料夾下**
+   - 請至 [Google Drive模型權重下載](https://drive.google.com/drive/folders/1xt2j6hwjhCDhpAqlXl1bVf1dRDx-EIxc?usp=sharing) 下載所有模型資料夾，依說明放置本資料夾下的CHATBOT/model資料夾中。
 
 ---
 

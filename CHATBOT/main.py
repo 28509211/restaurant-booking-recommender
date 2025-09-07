@@ -13,7 +13,7 @@ from spacy_function import NER  # 匯入 Place_Answer_InLabel
 import socket
 
 app = Flask(__name__)
-socketio = SocketIO( app, async_mode='gevent' )
+socketio = SocketIO( app, async_mode='gevent', cors_allowed_origins="*" )
 
 
 user_rooms = {}  # 紀錄user登陸網站的編碼
