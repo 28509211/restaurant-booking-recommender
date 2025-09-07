@@ -16,7 +16,7 @@ public class SocketApplication extends Application {
     public void onCreate() {
         super.onCreate();
         try {
-            mSocket = IO.socket("https://subdomain3.jp.ngrok.io"); // 替換為您的伺服器 URL
+            mSocket = IO.socket(apiURLs.BASE_SOCKET_URL); // 替換為您的伺服器 URL
         } catch (Exception e) {
             e.printStackTrace();
         }

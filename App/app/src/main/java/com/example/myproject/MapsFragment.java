@@ -167,7 +167,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void fetchNearbyStores(double lat, double lng) {
-        String url = "https://subdomain1.jp.ngrok.io/login-register-android/get_nearby_stores.php?lat=" + lat + "&lng=" + lng;
+        String url = apiURLs.GET_NEARBY_STORES + lat + "&lng=" + lng;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

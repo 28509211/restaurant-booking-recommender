@@ -61,7 +61,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void fetchMenuItems() {
-        String url = "https://subdomain1.jp.ngrok.io/login-register-android/fetch_menu_items.php"; // 更改為您的 PHP 腳本 URL
+        String url = apiURLs.FETCH_MENU_ITEMS; // 更改為您的 PHP 腳本 URL
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,

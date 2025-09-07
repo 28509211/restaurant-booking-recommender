@@ -70,7 +70,7 @@ public class CartActivity extends AppCompatActivity {
             return;
         }
 
-        String url = "https://subdomain1.jp.ngrok.io/login-register-android/get_cart_items.php?user_id=" + userId;
+        String url = apiURLs.GET_CART_ITEMS + userId;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

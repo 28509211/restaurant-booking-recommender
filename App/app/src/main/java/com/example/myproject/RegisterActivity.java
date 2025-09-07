@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.d("RegisterActivity", "PhoneNumber: " + PhoneNumber);
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "https://subdomain1.jp.ngrok.io/login-register-android/Register.php";
+                String url = apiURLs.REGISTER;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

@@ -104,7 +104,7 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void fetchSearchResults(String query) {
-        String url = "https://subdomain1.jp.ngrok.io/login-register-android/fetch_search_results.php?query=" + query;
+        String url = apiURLs.FETCH_SEARCH_RESULTS + query;
 
         progressBar.setVisibility(View.VISIBLE);
 

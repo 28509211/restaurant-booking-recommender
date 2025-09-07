@@ -251,7 +251,7 @@ public class FavorFragment extends Fragment {
             Toast.makeText(getContext(), "未能獲取用戶ID", Toast.LENGTH_SHORT).show();
             return;
         }
-        String url = "https://subdomain2.jp.ngrok.io/recommend2";  // 更新為正確的 URL
+        String url = apiURLs.RECOMMEND2;  // 更新為正確的 URL
 
         progressBarForurFood2.setVisibility(View.VISIBLE);
         progressBarForurFoodNew.setVisibility(View.VISIBLE);  // 顯示基本模式的進度條
@@ -383,7 +383,7 @@ public class FavorFragment extends Fragment {
 
 
     private void fetchFoodData() {
-        String url = "https://subdomain1.jp.ngrok.io/login-register-android/fetch_food_data.php";
+        String url = apiURLs.FETCH_FOOD_DATA;
 
         progressBarForurFood.setVisibility(View.VISIBLE);
         progressBarForurFood3.setVisibility(View.VISIBLE);
@@ -461,7 +461,7 @@ public class FavorFragment extends Fragment {
     }
 
     private void fetchCategoryData() {
-        String url = "https://localhost/login-register-android/fetch_category_data.php";
+        String url = apiURLs.FETCH_CATEGORY_DATA;
 
         progressBarCategory.setVisibility(View.VISIBLE);
 
@@ -495,7 +495,7 @@ public class FavorFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         progressBarCategory.setVisibility(View.GONE);
                         error.printStackTrace();
-                        Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "BITCH?? CATEGORY HAS A PROBLEM", Toast.LENGTH_SHORT).show();
                     }
                 });
 

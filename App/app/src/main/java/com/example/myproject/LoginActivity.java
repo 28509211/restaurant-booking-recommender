@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String url = "https://subdomain1.jp.ngrok.io/login-register-android/login.php";
+        String url = apiURLs.LOGIN;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override

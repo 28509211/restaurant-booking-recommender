@@ -110,7 +110,7 @@ public class AccountFragment extends Fragment {
                 String userId = sharedPreferences.getString("id", "");
 
                 // 發送登出請求到伺服器
-                String url = "https://subdomain1.jp.ngrok.io/login-register-android/logout.php";
+                String url = apiURLs.LOGOUT;
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
@@ -169,7 +169,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void fetchUserInfo(String userId) {
-        String url = "https://subdomain1.jp.ngrok.io/login-register-android/GetUserInfo.php";
+        String url = apiURLs.GET_USER_INFO;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override

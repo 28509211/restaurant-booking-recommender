@@ -358,7 +358,7 @@ public class InterestSelectActivity extends AppCompatActivity {
 
                 } // for
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="https://subdomain1.jp.ngrok.io/login-register-android/initselect.php";
+                String url =apiURLs.INITIAL_SELECT;
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
