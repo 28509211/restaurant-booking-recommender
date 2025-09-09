@@ -142,10 +142,11 @@ class ChatbotLauncher:
         print("\n📁 檢查資料文件...")
         # 修正檔案路徑檢查
         required_files = [
-            'data.json',
-            'storeinfo_review.json', 
-            'tag_embeddings.json',
-            'updated_storeinfo_tablesm.json',
+            'data'
+            './data/data.json',
+            './data/storeinfo_review.json', 
+            './data/tag_embeddings.json',
+            './data/updated_storeinfo_tablesm.json',
             'config.py'
         ]
         
@@ -172,14 +173,14 @@ class ChatbotLauncher:
         # 修正模型目錄路徑檢查
         model_dirs = [
             'model',
-            'output',
-            'output2_dia_reserve',
-            'output2_dia_recommand', 
-            'output2_dia_map',
-            'new_result',
-            'Is_Collect_or_Function',
-            'NLG_TAIDE',
-            'shibing624_text2vec-base-chinese'
+            './model/output',
+            './model/output2_dia_reserve',
+            './model/output2_dia_recommand', 
+            './model/output2_dia_map',
+            './model/new_result',
+            './model/Is_Collect_or_Function',
+            './model/NLG_TAIDE',
+            './model/shibing624_text2vec-base-chinese'
         ]
         
         missing = []
@@ -352,8 +353,12 @@ class ChatbotLauncher:
                     print(f"⚠️  外部訪問設置失敗: {e}")
                     print("💡 將使用本地模式啟動")
             
-            from main import app, socketio
-            socketio.run(app, host=host, port=port, debug=debug)
+            import subprocess
+            import sys
+
+            # 等於在命令列執行：python main.py
+            subprocess.run([sys.executable, "main.py"])
+
             
         except KeyboardInterrupt:
             print("\n⏹️  服務器已停止")
